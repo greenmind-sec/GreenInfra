@@ -20,6 +20,8 @@ Uso: $(basename "$0") [OPÇÔES]
 OPÇÕES:
   -ir, --install-requirements Install requirements for Docker
   -id, --install-docker       Install Docker
+  -in, --install-nginx        Install nginx
+  -im, --install-mariadb      Install MariaDB
 
   -h, --help         Mostra esta tela de ajuda e sai
   -V, --version      Mostra a versão do programa e sai
@@ -37,6 +39,34 @@ do
 
     -id | --install-docker)
 			curl -fsSL https://get.docker.com | bash
+      exit 0
+		;;
+
+    -in | --install-nginx)
+			apt-get update
+      apt-get install -y nginx
+      exit 0
+		;;
+
+    -im | --install-mariadb)
+			apt-get update
+      apt-get install -y mariadb-server mariadb-client
+      echo "Deseja realizar secure installation Y (Yes) - N (No)"
+        read opcao;
+        if [ $opcao == "y" | $opcao == "Y"];
+        then
+          mysql_secure_installation
+          clear
+          echo "Configuraçõs de seguraça terminadas!"
+          exit 0\
+        elif [ $opcao == "n" | $opcao == "N"];
+        then
+           echo "Não realizar o secure installation pode trazer problemas de segurança"
+           exit 0
+        else;
+         then
+         echo "Cuidado com a senha padrão"
+        fi
       exit 0
 		;;
 
